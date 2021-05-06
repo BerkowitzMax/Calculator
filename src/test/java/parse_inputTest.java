@@ -70,12 +70,20 @@ class parse_inputTest {
         assertThrows(NullPointerException.class, () -> {
             new parse_input("(1+1)*1.)");
         });
+
+        assertThrows(NullPointerException.class, () -> {
+            new parse_input("1 + )( 2");
+        });
     }
 
     @Test
     void parseInvalidExpression_test2_decimal() {
         assertThrows(NullPointerException.class, () -> {
             new parse_input("(1+1)*1..");
+        });
+
+        assertThrows(NullPointerException.class, () -> {
+            new parse_input("1.0 + 2.. *3");
         });
     }
 
