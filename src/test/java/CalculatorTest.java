@@ -27,6 +27,7 @@ class CalculatorTest {
         c.parseExpression("1+1$");
         test_output = stringify(c.stackGetter());
         assertEquals(expected, test_output);
+        System.out.println("T1_test passed.");
 
         // Test 2
         c = new Calculator();
@@ -34,6 +35,7 @@ class CalculatorTest {
         c.parseExpression("1*(2^3+4)$");
         test_output = stringify(c.stackGetter());
         assertEquals(expected, test_output);
+        System.out.println("T2_test passed.");
 
         // Test 3
         c = new Calculator();
@@ -41,6 +43,44 @@ class CalculatorTest {
         c.parseExpression("1*(2^3+4)-(4%45/(22,000.1))$");
         test_output = stringify(c.stackGetter());
         assertEquals(expected, test_output);
+        System.out.println("T3_test passed.");
+
+        // Test 4
+        c = new Calculator();
+        expected = ".+.";
+        c.parseExpression(".+.$");
+        test_output = stringify(c.stackGetter());
+        assertEquals(expected, test_output);
+        System.out.println("T4_test passed.");
+    }
+
+    @org.junit.jupiter.api.Test
+    void parseExpression_test_invalid() {
+        Calculator c = new Calculator();
+
+        // TEST 1
+        assertThrows(NullPointerException.class, () -> {
+            c.parseExpression("(1+1$");
+        });
+        System.out.println("T1_test_invalid passed.");
+
+        // TEST 2
+        assertThrows(NullPointerException.class, () -> {
+            c.parseExpression("(1+1)*((1.)$");
+        });
+        System.out.println("T2_test_invalid passed.");
+
+        // TEST 3
+        assertThrows(NullPointerException.class, () -> {
+            c.parseExpression("(1+1)*1..$");
+        });
+        System.out.println("T3_test_invalid passed.");
+
+        // TEST 4
+        assertThrows(NullPointerException.class, () -> {
+            c.parseExpression("(1+1)*1.)$");
+        });
+        System.out.println("T4_test_invalid passed.");
     }
 
 }

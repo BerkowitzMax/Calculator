@@ -40,13 +40,14 @@ public class Calculator {
             else if (c == ')') paren--;
             if (paren < 0) throw new NullPointerException("Invalid parenthesis order");
 
+            // throw error on back-to-back decimals
             if (c == '.') isValidDecimal();
 
             try {
                 Integer.parseInt(String.valueOf(c));
                 current += c;
             } catch (Exception e) {
-                // push and clear current string
+                // push and clear current string value
                 if (!current.equals("")) exp.push(current);
                 current = "";
 
@@ -61,7 +62,8 @@ public class Calculator {
 
         if (paren != 0) throw new NullPointerException("Unbalanced parenthesis");
         if (allowed_operations.contains(exp.peek())
-            && !exp.peek().equals(")"))
+            && !exp.peek().equals(")")
+            && !exp.peek().equals("."))
             throw new NullPointerException("Ends on operator");
 
         System.out.println(exp);
