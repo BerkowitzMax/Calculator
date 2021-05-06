@@ -15,7 +15,7 @@ class parse_inputTest {
     }
 
     @Test
-    void parseExpression_test1_basic() {
+    void parseExpression_basic() {
         String expected = "1+1";
         parse_input c = new parse_input("1+1");
         String test_output = stringify(c.stackGetter());
@@ -24,7 +24,7 @@ class parse_inputTest {
     }
 
     @Test
-    void parseExpression_test2_operators() {
+    void parseExpression_operators() {
         String expected = "1*(2^3+4)";
         parse_input c = new parse_input("1*(2^3+4)");
         String test_output = stringify(c.stackGetter());
@@ -40,7 +40,7 @@ class parse_inputTest {
     }
 
     @Test
-    void parseExpression_test3_complex() {
+    void parseExpression_complex() {
         String expected = "1*(2^3+4)-(4%45/(22000.1))";
         parse_input c = new parse_input("1*(2^3+4)-(4%45/(22,000.1))");
         String test_output = stringify(c.stackGetter());
@@ -49,7 +49,7 @@ class parse_inputTest {
     }
 
     @Test
-    void parseExpression_test4_decimal() {
+    void parseExpression_decimal() {
         String expected = ".+.";
         parse_input c = new parse_input(".+.");
         String test_output = stringify(c.stackGetter());
@@ -58,7 +58,7 @@ class parse_inputTest {
     }
 
     @Test
-    void parseInvalidExpression_test1_parenthesis() {
+    void parseInvalidExpression_parenthesis() {
         assertThrows(NullPointerException.class, () -> {
             new parse_input("(1+1");
         });
@@ -77,7 +77,7 @@ class parse_inputTest {
     }
 
     @Test
-    void parseInvalidExpression_test2_decimal() {
+    void parseInvalidExpression_decimal() {
         assertThrows(NullPointerException.class, () -> {
             new parse_input("(1+1)*1..");
         });
@@ -88,7 +88,7 @@ class parse_inputTest {
     }
 
     @Test
-    void parseInvalidExpression_test3_operators() {
+    void parseInvalidExpression_operators() {
         assertThrows(NullPointerException.class, () -> {
             new parse_input("(1+1)*1+");
         });
