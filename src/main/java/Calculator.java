@@ -6,6 +6,10 @@ public class Calculator {
             (Arrays.asList("(",")","^","*","/","%","+","-", "."));
     Stack<String> exp = new Stack<>();
 
+    public final Stack<String> stackGetter(){
+        return exp;
+    }
+
     public static void main(String[] args) {
         System.out.print("Input equation to evaluate: ");
         Scanner read = new Scanner(System.in);
@@ -34,7 +38,7 @@ public class Calculator {
 
             if (c == '(') paren++;
             else if (c == ')') paren--;
-            if (paren < 0) System.exit(1);
+            if (paren < 0) throw new NullPointerException("Invalid parenthesis order");
 
             if (c == '.') isValidDecimal();
 
@@ -49,17 +53,16 @@ public class Calculator {
                 // pushes operators
                 if (c != '$') {
                     if (!isValidOperation(Character.toString(c)))
-                        System.exit(1);
+                        throw new NullPointerException("Invalid operation");
                     exp.push(Character.toString(c));
                 }
             }
         }
 
-        // unbalanced parenthesis, ends on operation
-        if (paren != 0) System.exit(1);
+        if (paren != 0) throw new NullPointerException("Unbalanced parenthesis");
         if (allowed_operations.contains(exp.peek())
             && !exp.peek().equals(")"))
-            System.exit(1);
+            throw new NullPointerException("Ends on operator");
 
         System.out.println(exp);
     }
@@ -67,22 +70,20 @@ public class Calculator {
     // exits upon: back to back operations
     //             invalid operator
     public boolean isValidOperation(String op) {
+        if (op.equals("(") || op.equals(")")) return true;
+
         if (!exp.empty() && exp.peek().equals(op))
-            System.exit(1);
+            throw new NullPointerException("Invalid input");
         return allowed_operations.contains(op);
     }
 
     public void isValidDecimal() {
         // invalid input
         if (!exp.empty() && exp.peek().equals("."))
-            System.exit(1);
+            throw new NullPointerException("Invalid decimal");
     }
 
     public int sum(int a, int b) {
         return a + b;
-    }
-
-    public int subtract(int a, int b) {
-        return a - b;
     }
 }
