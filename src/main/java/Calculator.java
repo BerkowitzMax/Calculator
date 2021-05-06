@@ -1,28 +1,24 @@
 import java.util.*;
 import java.lang.*;
 
-public class Calculator {
+class parse_input {
     private final Set<String> allowed_operations = new HashSet<>
             (Arrays.asList("(",")","^","*","/","%","+","-", "."));
     Stack<String> exp = new Stack<>();
 
-    public final Stack<String> stackGetter(){
-        return exp;
-    }
+    parse_input(){}
 
-    public static void main(String[] args) {
-        System.out.print("Input equation to evaluate: ");
-        Scanner read = new Scanner(System.in);
-        String input = read.nextLine();
-
+    parse_input(String input) {
         if (input.equals("")) System.exit(0);
 
         // remove spaces, exit condition
         input = input.replaceAll("\\s", "");
         input += "$";
+        this.parseExpression(input);
+    }
 
-        Calculator c = new Calculator();
-        c.parseExpression(input);
+    public Stack<String> stackGetter(){
+        return exp;
     }
 
     /* Back-to-back integers are combined
@@ -62,8 +58,8 @@ public class Calculator {
 
         if (paren != 0) throw new NullPointerException("Unbalanced parenthesis");
         if (allowed_operations.contains(exp.peek())
-            && !exp.peek().equals(")")
-            && !exp.peek().equals("."))
+                && !exp.peek().equals(")")
+                && !exp.peek().equals("."))
             throw new NullPointerException("Ends on operator");
 
         System.out.println(exp);
@@ -83,6 +79,17 @@ public class Calculator {
         // invalid input
         if (!exp.empty() && exp.peek().equals("."))
             throw new NullPointerException("Invalid decimal");
+    }
+}
+
+public class Calculator {
+    public static void main(String[] args) {
+        System.out.print("Input equation to evaluate: ");
+        Scanner read = new Scanner(System.in);
+        String input = read.nextLine();
+
+        parse_input reader = new parse_input(input);
+        Stack<String> result = reader.stackGetter();
     }
 
     public int sum(int a, int b) {
