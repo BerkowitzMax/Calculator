@@ -92,5 +92,13 @@ class parse_inputTest {
         assertThrows(NullPointerException.class, () -> {
             new parse_input("(1+1)*1+");
         });
+
+        assertThrows(NullPointerException.class, () -> {
+            new parse_input("(1+1)**1");
+        });
+
+        assertThrows(NullPointerException.class, () -> {
+            new parse_input("//(1+1)*1");
+        });
     }
 }
