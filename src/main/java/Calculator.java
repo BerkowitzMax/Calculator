@@ -1,8 +1,6 @@
 import java.util.*;
 import java.lang.*;
 
-// TODO write test cases
-// TODO upload to github
 public class Calculator {
     private final Set<String> allowed_operations = new HashSet<>
             (Arrays.asList("(",")","^","*","/","%","+","-", "."));
@@ -13,7 +11,7 @@ public class Calculator {
         Scanner read = new Scanner(System.in);
         String input = read.nextLine();
 
-        if (input == "") System.exit(0);
+        if (input.equals("")) System.exit(0);
 
         // remove spaces, exit condition
         input = input.replaceAll("\\s", "");
@@ -36,6 +34,7 @@ public class Calculator {
 
             if (c == '(') paren++;
             else if (c == ')') paren--;
+            if (paren < 0) System.exit(1);
 
             if (c == '.') isValidDecimal();
 
@@ -50,33 +49,33 @@ public class Calculator {
                 // pushes operators
                 if (c != '$') {
                     if (!isValidOperation(Character.toString(c)))
-                        System.exit(-1);
+                        System.exit(1);
                     exp.push(Character.toString(c));
                 }
             }
         }
 
         // unbalanced parenthesis, ends on operation
-        if (paren != 0) System.exit(-1);
-        if (allowed_operations.contains(exp.peek())) System.exit(-1);
+        if (paren != 0) System.exit(1);
+        if (allowed_operations.contains(exp.peek())
+            && !exp.peek().equals(")"))
+            System.exit(1);
 
         System.out.println(exp);
     }
 
     // exits upon: back to back operations
-    //             empty stack
     //             invalid operator
     public boolean isValidOperation(String op) {
-        if (exp.empty()) System.exit(-1);
-        if (exp.peek().equals(op))
-            System.exit(-1);
+        if (!exp.empty() && exp.peek().equals(op))
+            System.exit(1);
         return allowed_operations.contains(op);
     }
 
     public void isValidDecimal() {
         // invalid input
         if (!exp.empty() && exp.peek().equals("."))
-            System.exit(-1);
+            System.exit(1);
     }
 
     public int sum(int a, int b) {
