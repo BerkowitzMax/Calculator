@@ -25,8 +25,8 @@ class parse_inputTest {
 
     @Test
     void parseExpression_operators() {
-        String expected = "1*(2^3+4)";
-        parse_input c = new parse_input("1*(2^3+4)");
+        String expected = "1*(3+4)";
+        parse_input c = new parse_input("1*(3+4)");
         String test_output = stringify(c.stackGetter());
 
         assertEquals(expected, test_output);
@@ -41,8 +41,8 @@ class parse_inputTest {
 
     @Test
     void parseExpression_complex() {
-        String expected = "1*(2^3+4)-(4%45/(22000.1))";
-        parse_input c = new parse_input("1*(2^3+4)-(4%45/(22,000.1))");
+        String expected = "1*(2+4)-(4%45/(22000.1))";
+        parse_input c = new parse_input("1*(2+4)-(4%45/(22,000.1))");
         String test_output = stringify(c.stackGetter());
 
         assertEquals(expected, test_output);

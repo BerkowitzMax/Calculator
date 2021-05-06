@@ -1,9 +1,11 @@
+import net.sourceforge.jeval.Evaluator;
+
 import java.util.*;
 import java.lang.*;
 
 class parse_input {
     private final Set<String> allowed_operations = new HashSet<>
-            (Arrays.asList("(",")","^","*","/","%","+","-", "."));
+            (Arrays.asList("(",")","*","/","%","+","-", "."));
     Stack<String> exp = new Stack<>();
 
     parse_input(){}
@@ -83,16 +85,57 @@ class parse_input {
 }
 
 public class Calculator {
+    Stack<String> expression;
+
     public static void main(String[] args) {
         System.out.print("Input equation to evaluate: ");
         Scanner read = new Scanner(System.in);
         String input = read.nextLine();
 
         parse_input reader = new parse_input(input);
-        Stack<String> result = reader.stackGetter();
+
+        Calculator c = new Calculator();
+        c.expression = reader.stackGetter();
+
+        System.out.println(c.compute());
     }
 
-    public int sum(int a, int b) {
-        return a + b;
+    public String compute() {
+        // transfer to vector
+        Vector<String> exp = new Vector<>();
+        while (!expression.empty()) {
+            exp.add(expression.pop());
+        }
+        Collections.reverse(exp);
+
+        // format decimals
+        for (int i = 0; i < exp.size(); i++) {
+            if (exp.get(i).equals(".")) {
+                // append 0 if empty decimal
+                // IF END
+                if (i >= exp.capacity()-1){
+                    exp.add("0");
+                }
+                else {
+                    // IN MIDDLE
+                    try {
+                        Integer.parseInt(String.valueOf(exp.get(i+1)));
+                    } catch (Exception e) {
+                        exp.insertElementAt("0", i+1);
+                    }
+                }
+            }
+        }
+
+        String final_expression = String.join("", exp);
+        System.out.println(final_expression);
+
+        Evaluator result = new Evaluator();
+        try {
+            final_expression = result.evaluate(final_expression);
+        } catch (Exception e) {return "Error: " + e.getMessage();}
+        return final_expression;
     }
 }
+//Integer.parseInt(String.valueOf(item));
+
