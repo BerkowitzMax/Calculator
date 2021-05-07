@@ -4,7 +4,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-class parse_inputTest {
+class parseInputTest {
 
     private final String stringify(Stack<String> input) {
         String out = "";
@@ -15,90 +15,90 @@ class parse_inputTest {
     }
 
     @Test
-    void parseExpression_basic() {
+    void parseExpressionBasic() {
         String expected = "1+1";
-        parse_input c = new parse_input("1+1");
-        String test_output = stringify(c.stackGetter());
+        parseInput c = new parseInput("1+1");
+        String testOutput = stringify(c.stackGetter());
 
-        assertEquals(expected, test_output);
+        assertEquals(expected, testOutput);
     }
 
     @Test
-    void parseExpression_operators() {
+    void parseExpressionOperators() {
         String expected = "1*(3+4)";
-        parse_input c = new parse_input("1*(3+4)");
-        String test_output = stringify(c.stackGetter());
+        parseInput c = new parseInput("1*(3+4)");
+        String testOutput = stringify(c.stackGetter());
 
-        assertEquals(expected, test_output);
+        assertEquals(expected, testOutput);
 
         // Testing symbols and spaces
         expected = "1*2";
-        c = new parse_input("1$$*    2");
-        test_output = stringify(c.stackGetter());
+        c = new parseInput("1$$*    2");
+        testOutput = stringify(c.stackGetter());
 
-        assertEquals(expected, test_output);
+        assertEquals(expected, testOutput);
     }
 
     @Test
-    void parseExpression_complex() {
+    void parseExpressionComplex() {
         String expected = "1*(2+4)-(4%45/(22000.1))";
-        parse_input c = new parse_input("1*(2+4)-(4%45/(22,000.1))");
-        String test_output = stringify(c.stackGetter());
+        parseInput c = new parseInput("1*(2+4)-(4%45/(22,000.1))");
+        String testOutput = stringify(c.stackGetter());
 
-        assertEquals(expected, test_output);
+        assertEquals(expected, testOutput);
     }
 
     @Test
-    void parseExpression_decimal() {
+    void parseExpressionDecimal() {
         String expected = ".+.";
-        parse_input c = new parse_input(".+.");
-        String test_output = stringify(c.stackGetter());
+        parseInput c = new parseInput(".+.");
+        String testOutput = stringify(c.stackGetter());
 
-        assertEquals(expected, test_output);
+        assertEquals(expected, testOutput);
     }
 
     @Test
-    void parseInvalidExpression_parenthesis() {
+    void parseInvalidExpressionParenthesis() {
         assertThrows(NullPointerException.class, () -> {
-            new parse_input("(1+1");
+            new parseInput("(1+1");
         });
 
         assertThrows(NullPointerException.class, () -> {
-            new parse_input("(1+1)*((1.)");
+            new parseInput("(1+1)*((1.)");
         });
 
         assertThrows(NullPointerException.class, () -> {
-            new parse_input("(1+1)*1.)");
+            new parseInput("(1+1)*1.)");
         });
 
         assertThrows(NullPointerException.class, () -> {
-            new parse_input("1 + )( 2");
-        });
-    }
-
-    @Test
-    void parseInvalidExpression_decimal() {
-        assertThrows(NullPointerException.class, () -> {
-            new parse_input("(1+1)*1..");
-        });
-
-        assertThrows(NullPointerException.class, () -> {
-            new parse_input("1.0 + 2.. *3");
+            new parseInput("1 + )( 2");
         });
     }
 
     @Test
-    void parseInvalidExpression_operators() {
+    void parseInvalidExpressionDecimal() {
         assertThrows(NullPointerException.class, () -> {
-            new parse_input("(1+1)*1+");
+            new parseInput("(1+1)*1..");
         });
 
         assertThrows(NullPointerException.class, () -> {
-            new parse_input("(1+1)**1");
+            new parseInput("1.0 + 2.. *3");
+        });
+    }
+
+    @Test
+    void parseInvalidExpressionOperators() {
+        assertThrows(NullPointerException.class, () -> {
+            new parseInput("(1+1)*1+");
         });
 
         assertThrows(NullPointerException.class, () -> {
-            new parse_input("//(1+1)*1");
+            new parseInput("(1+1)**1");
+        });
+
+        assertThrows(NullPointerException.class, () -> {
+            new parseInput("//(1+1)*1");
         });
     }
 }
